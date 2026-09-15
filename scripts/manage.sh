@@ -65,11 +65,12 @@ PY
   # The archive includes database + images; retain the full stopped directory for automatic rollback.
   data_backup="${DATA_ROOT}.before-upgrade-$stamp"
   cp -a "$DATA_ROOT" "$data_backup"
-  restart_old(){ cp -a "$config_backup/." "$INSTALL_ROOT/"; docker compose up -d; }
+  restart_old(){ cp -a "$config_backup/." "$INSTALL_ROOT/"; set -a; source .env; set +a; docker compose up -d; }
   trap 'restart_old; rm -rf "$work"' ERR
   cp "$work/package/compose.yaml" "$work/package/release.json" "$INSTALL_ROOT/"
   cp "$work/package/scripts/"*.sh "$INSTALL_ROOT/scripts/"
   sed -i "s|^PORTAL_IMAGE=.*|PORTAL_IMAGE=$next_image|" .env
+  export PORTAL_IMAGE="$next_image"
   if ! docker compose up -d --wait --wait-timeout 90; then
    docker compose stop app
    mv "$DATA_ROOT" "${DATA_ROOT}.failed-upgrade-$stamp"
