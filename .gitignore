@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.data/
+.test-data/
+.env
+*.log
+*.lpbackup.gz
+playwright-report/
+test-results/
+实施方案.md
+HANDOFF.local.md
+.local/
+.DS_Store

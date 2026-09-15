@@ -1,0 +1,27 @@
+name: learning-portal
+services:
+  app:
+    image: ${PORTAL_IMAGE:?Set PORTAL_IMAGE to a published image digest}
+    restart: unless-stopped
+    init: true
+    environment:
+      SITE_ORIGIN: ${SITE_ORIGIN:-https://i.aixico.com}
+      DATA_DIR: /data
+      HOST: 0.0.0.0
+      PORT: 8080
+    ports:
+      - "127.0.0.1:${APP_PORT:-18082}:8080"
+    volumes:
+      - ${DATA_ROOT:-/srv/learning-portal}:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=192m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 512m
+    pids_limit: 128
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
