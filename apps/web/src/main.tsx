@@ -91,7 +91,9 @@ async function api(path: string, method = "GET", body?: unknown) {
         ? {}
         : {
             "X-Requested-With": "LearningPortal",
-            ...(!isForm ? { "Content-Type": "application/json" } : {}),
+            ...(!isForm && body !== undefined
+              ? { "Content-Type": "application/json" }
+              : {}),
           },
     body: body === undefined ? undefined : isForm ? body : JSON.stringify(body),
   });

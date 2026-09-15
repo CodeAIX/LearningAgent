@@ -57,8 +57,14 @@ await page.screenshot({ path: ".local/admin-mobile.png", fullPage: true });
 assert.ok(
   await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
 );
+await page.getByRole("button", { name: "备份与导入", exact: true }).click();
+const downloaded = page.waitForEvent("download");
+await page.getByRole("button", { name: "生成并下载备份", exact: true }).click();
+assert.match((await downloaded).suggestedFilename(), /\.lpbackup\.gz$/);
+await page.getByRole("button", { name: "退出", exact: true }).click();
+await page.getByRole("button", { name: "登录后台" }).waitFor();
 assert.deepEqual(errors, []);
 await browser.close();
 console.log(
-  "UI passed: desktop/mobile, search, login, create, edit, archive, restore; zero console errors",
+  "UI passed: desktop/mobile, search, login, create, edit, archive, restore, backup, logout; zero console errors",
 );

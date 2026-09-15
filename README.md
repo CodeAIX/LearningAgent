@@ -17,10 +17,10 @@
 
 要求：Ubuntu 24.04 / Debian 同类环境，x86_64，Docker Engine 与 Docker Compose v2、curl、python3、tar、sha256sum 已安装；至少 512 MB 可用内存和足够的数据磁盘空间。
 
-以 v1.0.1 为例，一条命令下载固定版本引导脚本并开始安装：
+以 v1.0.2 为例，一条命令下载固定版本引导脚本并开始安装：
 
 ```bash
-curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1.0.1/bootstrap.sh -o /tmp/learning-portal-bootstrap.sh && sudo bash /tmp/learning-portal-bootstrap.sh v1.0.1 https://i.aixico.com 18082
+curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1.0.2/bootstrap.sh -o /tmp/learning-portal-bootstrap.sh && sudo bash /tmp/learning-portal-bootstrap.sh v1.0.2 https://i.aixico.com 18082
 ```
 
 脚本会校验同版本部署包、按 digest 拉取公开 GHCR 镜像、创建数据目录、启动应用并引导创建管理员。账号至少 3 位，密码至少 12 位。没有默认密码。已有安装或数据会阻止全新安装，避免覆盖。
@@ -45,7 +45,7 @@ i.aixico.com → HTTP → 127.0.0.1:18082
 sudo learning-portal status
 sudo learning-portal backup
 sudo learning-portal restore /完整路径/portal-时间戳.lpbackup.gz
-sudo learning-portal upgrade v1.0.2
+sudo learning-portal upgrade v1.0.3
 sudo learning-portal reset-password admin
 ```
 
@@ -102,7 +102,7 @@ npm start
 本地构建目标架构镜像：
 
 ```bash
-docker buildx build --platform linux/amd64 --load -f infra/Dockerfile --build-arg REVISION="$(git rev-parse HEAD)" -t ghcr.io/codeaix/learning-portal:v1.0.1 .
+docker buildx build --platform linux/amd64 --load -f infra/Dockerfile --build-arg REVISION="$(git rev-parse HEAD)" -t ghcr.io/codeaix/learning-portal:v1.0.2 .
 ```
 
 源码存放在 GitHub；镜像放在 GHCR，设置为公开包；部署包放在固定版本 Release。生产 Compose 使用镜像 digest。发布前验证匿名下载与镜像拉取。
