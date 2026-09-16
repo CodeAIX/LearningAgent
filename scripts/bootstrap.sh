@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-VERSION=${1:-v1.0.4}
+VERSION=${1:-v1.0.5}
 [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo '版本格式应为 v1.0.0'; exit 1; }
 [[ $EUID -eq 0 ]] || { echo '请使用 sudo bash 执行'; exit 1; }
 for tool in curl sha256sum tar python3 docker; do command -v "$tool" >/dev/null || { echo "缺少依赖：$tool"; exit 1; }; done

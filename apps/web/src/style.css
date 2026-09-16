@@ -154,8 +154,11 @@ img {
 }
 .brand-platform {
   grid-area: 1 / 1;
+  letter-spacing: 0;
 }
 .brand .brand-code {
+  display: flex;
+  justify-content: space-between;
   grid-area: 2 / 1;
   margin: 0;
   letter-spacing: 0;

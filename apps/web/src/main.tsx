@@ -132,7 +132,11 @@ function Brand({ name }: { name: string }) {
       {section ? (
         <span className="brand-copy">
           <span className="brand-platform">{platform}</span>
-          <small className="brand-code">AI·XI·CO</small>
+          <small className="brand-code" aria-hidden="true">
+            {Array.from("AI·XI·CO", (letter, index) => (
+              <span key={index}>{letter}</span>
+            ))}
+          </small>
           <span className="brand-divider" aria-hidden="true" />
           <span className="brand-section">{section}</span>
           <small className="brand-english">MEDICAL LEARNING SPACE</small>
