@@ -4,7 +4,7 @@
 
 **一个 Docker 容器，一个数据目录。** 内置公开首页、中文管理后台、SQLite、封面管理与完整备份。复用已有 Cloudflare Tunnel。
 
-线上站点品牌为 **爱习酷｜医学智学空间**。站点名称可在管理后台「站点设置」修改；它会同步显示在左上角徽标、首页页脚和浏览器标题中。
+线上站点品牌为 **爱习酷｜医学智学空间**，英文副标题为 **AI · XI · CO｜MEDICAL LEARNING SPACE**。站点名称可在管理后台「站点设置」修改；它会同步显示在左上角徽标、首页页脚和浏览器标题中。
 
 ## 功能
 
@@ -19,10 +19,10 @@
 
 要求：Ubuntu 24.04 / Debian 同类环境，x86_64，Docker Engine 与 Docker Compose v2、curl、python3、tar、sha256sum 已安装；至少 512 MB 可用内存和足够的数据磁盘空间。
 
-以 v1.0.2 为例，一条命令下载固定版本引导脚本并开始安装：
+以 v1.0.3 为例，一条命令下载固定版本引导脚本并开始安装：
 
 ```bash
-curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1.0.2/bootstrap.sh -o /tmp/learning-portal-bootstrap.sh && sudo bash /tmp/learning-portal-bootstrap.sh v1.0.2 https://med.aixico.com 18082
+curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1.0.3/bootstrap.sh -o /tmp/learning-portal-bootstrap.sh && sudo bash /tmp/learning-portal-bootstrap.sh v1.0.3 https://med.aixico.com 18082
 ```
 
 脚本会校验同版本部署包、按 digest 拉取公开 GHCR 镜像、创建数据目录、启动应用并引导创建管理员。账号至少 3 位，密码至少 12 位。没有默认密码。已有安装或数据会阻止全新安装，避免覆盖。
@@ -41,7 +41,7 @@ med.aixico.com → HTTP → 127.0.0.1:18082
 
 首页：`https://med.aixico.com`；后台：`https://med.aixico.com/admin`。`i.aixico.com` 的 DNS、Tunnel 路由和重定向已解除，保留供其他项目使用。
 
-已发布的 v1.0.2 安装包保持原样；安装时请像上方命令一样显式传入新域名。
+v1.0.3 起，默认安装域名为 `med.aixico.com`。
 
 ## 维护
 
@@ -106,7 +106,7 @@ npm start
 本地构建目标架构镜像：
 
 ```bash
-docker buildx build --platform linux/amd64 --load -f infra/Dockerfile --build-arg REVISION="$(git rev-parse HEAD)" -t ghcr.io/codeaix/learning-portal:v1.0.2 .
+docker buildx build --platform linux/amd64 --load -f infra/Dockerfile --build-arg REVISION="$(git rev-parse HEAD)" -t ghcr.io/codeaix/learning-portal:v1.0.3 .
 ```
 
 源码存放在 GitHub；镜像放在 GHCR，设置为公开包；部署包放在固定版本 Release。生产 Compose 使用镜像 digest。发布前验证匿名下载与镜像拉取。

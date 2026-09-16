@@ -9,7 +9,7 @@ import {
   createHash,
 } from "node:crypto";
 import { z } from "zod";
-export const VERSION = "1.0.2";
+export const VERSION = "1.0.3";
 export const uid = () => randomUUID();
 export const hash = (t) => createHash("sha256").update(t).digest("hex");
 export function passwordHash(p) {
@@ -90,7 +90,7 @@ export function openDB(root) {
     try {
       db.prepare("INSERT INTO settings VALUES(1,?)").run(
         JSON.stringify({
-          name: "医学智学空间",
+          name: "爱习酷｜医学智学空间",
           tagline: "察微 · 循迹 · 守衡",
           intro:
             "从一个问题出发，走进更广阔的医学世界。\n与你的智能学伴一起思考，在虚拟实验中探索。",

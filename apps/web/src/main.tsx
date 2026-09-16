@@ -124,7 +124,7 @@ function Brand({ name }: { name: string }) {
       </span>
       <span>
         {name}
-        <small>MEDICAL LEARNING SPACE</small>
+        <small>AI · XI · CO｜MEDICAL LEARNING SPACE</small>
       </span>
     </a>
   );
