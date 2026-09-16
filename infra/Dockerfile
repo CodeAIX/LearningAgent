@@ -10,14 +10,15 @@ RUN npm run build
 FROM node:24-bookworm-slim AS runtime
 ARG REVISION=unknown
 LABEL org.opencontainers.image.source="https://github.com/CodeAIX/LearningAgent" \
-      org.opencontainers.image.description="医学学习资源门户 · 单容器、可编辑、可备份" \
-      org.opencontainers.image.version="1.0.5" \
+      org.opencontainers.image.description="爱习酷总平台与医学学习资源门户 · 单容器、可编辑、可备份" \
+      org.opencontainers.image.version="1.1.0" \
       org.opencontainers.image.revision=$REVISION
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=8080 DATA_DIR=/data
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev && npm cache clean --force && mkdir /data && chown node:node /data
 COPY apps/api ./apps/api
+COPY apps/home ./apps/home
 COPY --from=build /app/dist/web ./dist/web
 COPY assets ./assets
 USER node

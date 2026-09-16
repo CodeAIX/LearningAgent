@@ -208,3 +208,49 @@ test("import is validated, duplicate handling explicit, password changes invalid
   assert.equal(changed.statusCode, 200);
   assert.equal((await request("GET", "/api/admin")).statusCode, 401);
 });
+
+test("one container routes the platform and medical portal by hostname", async (t) => {
+  const { app } = await setup(t);
+  const platform = await app.inject({
+    url: "/",
+    headers: { host: "aixico.com" },
+  });
+  assert.equal(platform.statusCode, 200);
+  assert.match(platform.body, /让智能，/);
+  assert.match(platform.body, /https:\/\/med\.aixico\.com\//);
+  assert.match(
+    platform.headers["content-security-policy"],
+    /script-src 'self'/,
+  );
+  const medical = await app.inject({
+    url: "/",
+    headers: { host: "med.aixico.com" },
+  });
+  assert.equal(medical.statusCode, 200);
+  assert.match(medical.body, /id="root"/);
+  assert.doesNotMatch(medical.body, /class="constellation"/);
+  const admin = await app.inject({
+    url: "/admin",
+    headers: { host: "aixico.com" },
+  });
+  assert.equal(admin.statusCode, 302);
+  assert.equal(admin.headers.location, "https://med.aixico.com/admin");
+  assert.equal(
+    (await app.inject({ url: "/admin", headers: { host: "med.aixico.com" } }))
+      .statusCode,
+    200,
+  );
+  assert.equal((await app.inject("/platform/")).body, platform.body);
+  for (const asset of [
+    "/platform/home.css",
+    "/platform/home.js",
+    "/covers/laboratory.webp",
+    "/favicon.svg",
+  ])
+    assert.equal((await app.inject(asset)).statusCode, 200, asset);
+  assert.equal(
+    (await app.inject({ url: "/not-a-page", headers: { host: "aixico.com" } }))
+      .statusCode,
+    404,
+  );
+});

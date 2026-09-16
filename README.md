@@ -1,10 +1,17 @@
-# 爱习酷｜医学智学空间 · LearningAgent
+# 爱习酷 AIXICO · LearningAgent
 
 一个可以随时编辑的医学学习资源门户。以 **察微 · 循迹 · 守衡** 为主线，连接智能学伴、虚拟仿真实验与后续学习工具。
 
-**一个 Docker 容器，一个数据目录。** 内置公开首页、中文管理后台、SQLite、封面管理与完整备份。复用已有 Cloudflare Tunnel。
+**一个 Docker 容器，同时服务两个站点，一个数据目录。** 内置公开首页、中文管理后台、SQLite、封面管理与完整备份。复用已有 Cloudflare Tunnel。
 
 线上站点品牌为 **爱习酷｜医学智学空间**，英文副标题为 **AI·XI·CO｜MEDICAL LEARNING SPACE**。徽标中两组中英文共用一条竖线分隔。站点名称可在管理后台「站点设置」修改；它会同步显示在左上角徽标、首页页脚和浏览器标题中。
+
+## 总平台与医学空间
+
+- [爱习酷总平台](https://aixico.com/)：品牌概念首页，展示 AI 人工智能、XI 场景融合、CO 协同共创，含可交互主视觉与医学空间入口。
+- [医学智学空间](https://med.aixico.com/)：学习资源门户，保留原有资源管理与后台。
+- 根据请求主机名区分首页；两站共用应用容器及端口。`SITE_ORIGIN` 保持医学后台域名，管理员认证与来源校验不变。
+- 总平台为静态页面，源码位于 `apps/home/`，随镜像版本升级；不在医学后台编辑。修改 HTML/CSS/JS 后发布新版本即可。
 
 ## 功能
 
@@ -19,10 +26,10 @@
 
 要求：Ubuntu 24.04 / Debian 同类环境，x86_64，Docker Engine 与 Docker Compose v2、curl、python3、tar、sha256sum 已安装；至少 512 MB 可用内存和足够的数据磁盘空间。
 
-以 v1.0.5 为例，一条命令下载固定版本引导脚本并开始安装：
+以 v1.1.0 为例，一条命令下载固定版本引导脚本并开始安装：
 
 ```bash
-curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1.0.5/bootstrap.sh -o /tmp/learning-portal-bootstrap.sh && sudo bash /tmp/learning-portal-bootstrap.sh v1.0.5 https://med.aixico.com 18082
+curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1.1.0/bootstrap.sh -o /tmp/learning-portal-bootstrap.sh && sudo bash /tmp/learning-portal-bootstrap.sh v1.1.0 https://med.aixico.com 18082
 ```
 
 脚本会校验同版本部署包、按 digest 拉取公开 GHCR 镜像、创建数据目录、启动应用并引导创建管理员。账号至少 3 位，密码至少 12 位。没有默认密码。已有安装或数据会阻止全新安装，避免覆盖。
@@ -34,12 +41,13 @@ curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1
 在已有宿主机 cloudflared 对应的 Tunnel 中添加公开主机名：
 
 ```text
+aixico.com     → HTTP → 127.0.0.1:18082
 med.aixico.com → HTTP → 127.0.0.1:18082
 ```
 
-应用安装完成与公网域名可访问是两个检查步骤。首次需要配置这条路由；域名尚未配置时，脚本会显示待配置说明。若 cloudflared 运行在其他容器中，应通过共享 Docker 网络访问应用，不能直接使用该容器的 127.0.0.1。
+应用安装完成与公网域名可访问是两个检查步骤。首次需要配置这两条路由；域名尚未配置时，脚本会显示待配置说明。若 cloudflared 运行在其他容器中，应通过共享 Docker 网络访问应用，不能直接使用该容器的 127.0.0.1。
 
-首页：`https://med.aixico.com`；后台：`https://med.aixico.com/admin`。`i.aixico.com` 的 DNS、Tunnel 路由和重定向已解除，保留供其他项目使用。
+总平台：`https://aixico.com`；医学首页：`https://med.aixico.com`；后台：`https://med.aixico.com/admin`。`i.aixico.com` 的 DNS、Tunnel 路由和重定向已解除，保留供其他项目使用。
 
 v1.0.3 起，默认安装域名为 `med.aixico.com`。
 
@@ -49,7 +57,7 @@ v1.0.3 起，默认安装域名为 `med.aixico.com`。
 sudo learning-portal status
 sudo learning-portal backup
 sudo learning-portal restore /完整路径/portal-时间戳.lpbackup.gz
-sudo learning-portal upgrade v1.0.5
+sudo learning-portal upgrade v1.1.0
 sudo learning-portal reset-password admin
 ```
 
@@ -57,6 +65,7 @@ sudo learning-portal reset-password admin
 
 ### 备份说明
 
+- 总平台静态页面保存在 GitHub 源码与版本化镜像内，不依赖数据库；迁移时保留相同镜像版本与两个域名的 Tunnel 路由。
 - 后台可在线生成并下载完整备份。备份含 SQLite、上传图片、站点设置和管理员密码哈希；恢复时清除旧会话。
 - 程序直接操作本地 SQLite，无需独立的应用签名密钥或数据库密码。域名、端口和镜像等部署配置位于 `/opt/learning-portal/.env`，迁移时也应私下保存，或按新环境重新生成。
 - 数据库使用官方 `VACUUM INTO` 快照；备份档案包含逐文件 SHA-256。恢复验证路径、格式、校验和与数据库完整性。
@@ -99,14 +108,14 @@ npm run check
 npm start
 ```
 
-直接用生产服务预览时，设置 `SITE_ORIGIN=http://127.0.0.1:18082`，使登录来源校验与浏览器地址一致。本地默认数据目录 `.data`，生产为 `/data`。
+直接用生产服务预览时，设置 `SITE_ORIGIN=http://127.0.0.1:18082`，使登录来源校验与浏览器地址一致。总平台本地预览地址为 `http://127.0.0.1:18082/platform/`。本地默认数据目录 `.data`，生产为 `/data`。
 
 ## 镜像发布
 
 本地构建目标架构镜像：
 
 ```bash
-docker buildx build --platform linux/amd64 --load -f infra/Dockerfile --build-arg REVISION="$(git rev-parse HEAD)" -t ghcr.io/codeaix/learning-portal:v1.0.5 .
+docker buildx build --platform linux/amd64 --load -f infra/Dockerfile --build-arg REVISION="$(git rev-parse HEAD)" -t ghcr.io/codeaix/learning-portal:v1.1.0 .
 ```
 
 源码存放在 GitHub；镜像放在 GHCR，设置为公开包；部署包放在固定版本 Release。生产 Compose 使用镜像 digest。发布前验证匿名下载与镜像拉取。
