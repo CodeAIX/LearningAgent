@@ -9,7 +9,7 @@ import {
   createHash,
 } from "node:crypto";
 import { z } from "zod";
-export const VERSION = "1.1.0";
+export const VERSION = "1.2.0";
 export const uid = () => randomUUID();
 export const hash = (t) => createHash("sha256").update(t).digest("hex");
 export function passwordHash(p) {

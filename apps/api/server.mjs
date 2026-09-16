@@ -392,30 +392,10 @@ export async function buildApp({
     index: false,
     redirect: false,
   });
-  const home = join(project, "apps", "home");
-  const sendHome = (reply) =>
-    reply
-      .header("Cache-Control", "no-cache")
-      .type("text/html")
-      .send(readFileSync(join(home, "index.html")));
-  for (const path of ["/platform", "/platform/"])
-    app.get(path, async (req, reply) => sendHome(reply));
-  await app.register(staticFiles, {
-    root: home,
-    prefix: "/platform/",
-    decorateReply: false,
-    maxAge: 0,
-    index: false,
-    redirect: false,
-  });
   const web = join(project, "dist", "web");
   if (existsSync(web)) {
     for (const path of ["/", "/admin", "/admin/"])
       app.get(path, async (req, reply) => {
-        if (req.hostname === "aixico.com") {
-          if (path === "/") return sendHome(reply);
-          return reply.redirect("https://med.aixico.com/admin");
-        }
         return reply
           .type("text/html")
           .send(readFileSync(join(web, "index.html")));
