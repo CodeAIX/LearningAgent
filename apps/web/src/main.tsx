@@ -117,15 +117,32 @@ function Cover({ r, className = "" }: { r: Resource; className?: string }) {
   );
 }
 function Brand({ name }: { name: string }) {
+  const separator = name.search(/[｜|]/);
+  const platform = separator > 0 ? name.slice(0, separator).trim() : name;
+  const section = separator > 0 ? name.slice(separator + 1).trim() : "";
   return (
-    <a className="brand" href="/">
+    <a
+      className="brand"
+      href="/"
+      aria-label={`${name}，AI·XI·CO，MEDICAL LEARNING SPACE`}
+    >
       <span className="brandmark">
         <BookOpen size={22} />
       </span>
-      <span>
-        {name}
-        <small>AI · XI · CO｜MEDICAL LEARNING SPACE</small>
-      </span>
+      {section ? (
+        <span className="brand-copy">
+          <span className="brand-platform">{platform}</span>
+          <small className="brand-code">AI·XI·CO</small>
+          <span className="brand-divider" aria-hidden="true" />
+          <span className="brand-section">{section}</span>
+          <small className="brand-english">MEDICAL LEARNING SPACE</small>
+        </span>
+      ) : (
+        <span>
+          {name}
+          <small>AI·XI·CO｜MEDICAL LEARNING SPACE</small>
+        </span>
+      )}
     </a>
   );
 }

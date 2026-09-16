@@ -11,7 +11,7 @@ FROM node:24-bookworm-slim AS runtime
 ARG REVISION=unknown
 LABEL org.opencontainers.image.source="https://github.com/CodeAIX/LearningAgent" \
       org.opencontainers.image.description="医学学习资源门户 · 单容器、可编辑、可备份" \
-      org.opencontainers.image.version="1.0.3" \
+      org.opencontainers.image.version="1.0.4" \
       org.opencontainers.image.revision=$REVISION
 ENV NODE_ENV=production HOST=0.0.0.0 PORT=8080 DATA_DIR=/data
 WORKDIR /app

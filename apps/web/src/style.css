@@ -142,6 +142,38 @@ img {
   margin-top: 5px;
   color: #768078;
 }
+.brand-copy {
+  display: grid;
+  grid-template-columns: max-content 1px max-content;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  row-gap: 5px;
+  align-items: baseline;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.brand-platform {
+  grid-area: 1 / 1;
+}
+.brand .brand-code {
+  grid-area: 2 / 1;
+  margin: 0;
+  letter-spacing: 0;
+}
+.brand-divider {
+  grid-area: 1 / 2 / 3 / 3;
+  align-self: stretch;
+  margin: 2px 0;
+  background: #9ba99e;
+}
+.brand-section {
+  grid-area: 1 / 3;
+}
+.brand .brand-english {
+  grid-area: 2 / 3;
+  margin: 0;
+  letter-spacing: 0.75px;
+}
 .header-inner nav {
   display: flex;
   align-items: center;
@@ -1335,6 +1367,13 @@ dialog::backdrop {
   .brand small {
     font-size: 6px;
     letter-spacing: 1.5px;
+  }
+  .brand-copy {
+    column-gap: 8px;
+    row-gap: 5px;
+  }
+  .brand .brand-english {
+    letter-spacing: 0.5px;
   }
   .header-inner nav {
     gap: 0;
