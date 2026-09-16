@@ -1,8 +1,10 @@
-# 医学智学空间 · LearningAgent
+# 爱习酷｜医学智学空间 · LearningAgent
 
 一个可以随时编辑的医学学习资源门户。以 **察微 · 循迹 · 守衡** 为主线，连接智能学伴、虚拟仿真实验与后续学习工具。
 
 **一个 Docker 容器，一个数据目录。** 内置公开首页、中文管理后台、SQLite、封面管理与完整备份。复用已有 Cloudflare Tunnel。
+
+线上站点品牌为 **爱习酷｜医学智学空间**。站点名称可在管理后台「站点设置」修改；它会同步显示在左上角徽标、首页页脚和浏览器标题中。
 
 ## 功能
 
@@ -37,7 +39,7 @@ med.aixico.com → HTTP → 127.0.0.1:18082
 
 应用安装完成与公网域名可访问是两个检查步骤。首次需要配置这条路由；域名尚未配置时，脚本会显示待配置说明。若 cloudflared 运行在其他容器中，应通过共享 Docker 网络访问应用，不能直接使用该容器的 127.0.0.1。
 
-首页：`https://med.aixico.com`；后台：`https://med.aixico.com/admin`。原域名 `i.aixico.com` 已在 Cloudflare 配置永久跳转，保留路径与查询参数。
+首页：`https://med.aixico.com`；后台：`https://med.aixico.com/admin`。`i.aixico.com` 的 DNS、Tunnel 路由和重定向已解除，保留供其他项目使用。
 
 已发布的 v1.0.2 安装包保持原样；安装时请像上方命令一样显式传入新域名。
 
