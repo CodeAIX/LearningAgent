@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-VERSION=${1:?提供版本}; SITE_ORIGIN=${2:-https://i.aixico.com}; APP_PORT=${3:-18082}
+VERSION=${1:?提供版本}; SITE_ORIGIN=${2:-https://med.aixico.com}; APP_PORT=${3:-18082}
 INSTALL_ROOT=/opt/learning-portal
 DATA_ROOT=/srv/learning-portal
 PACKAGE_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)

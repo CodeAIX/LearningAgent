@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     init: true
     environment:
-      SITE_ORIGIN: ${SITE_ORIGIN:-https://i.aixico.com}
+      SITE_ORIGIN: ${SITE_ORIGIN:-https://med.aixico.com}
       DATA_DIR: /data
       HOST: 0.0.0.0
       PORT: 8080

@@ -18,4 +18,4 @@ with tarfile.open(sys.argv[1]) as archive:
         if m.name.startswith('/') or '..' in m.name.split('/') or not (m.isfile() or m.isdir()): raise SystemExit('部署包路径或类型不合法')
     archive.extractall(sys.argv[2],filter='data')
 PY
-bash "$DOWNLOAD_DIR/package/scripts/install.sh" "$VERSION" "${2:-https://i.aixico.com}" "${3:-18082}"
+bash "$DOWNLOAD_DIR/package/scripts/install.sh" "$VERSION" "${2:-https://med.aixico.com}" "${3:-18082}"

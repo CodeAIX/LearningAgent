@@ -20,7 +20,7 @@
 以 v1.0.2 为例，一条命令下载固定版本引导脚本并开始安装：
 
 ```bash
-curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1.0.2/bootstrap.sh -o /tmp/learning-portal-bootstrap.sh && sudo bash /tmp/learning-portal-bootstrap.sh v1.0.2 https://i.aixico.com 18082
+curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1.0.2/bootstrap.sh -o /tmp/learning-portal-bootstrap.sh && sudo bash /tmp/learning-portal-bootstrap.sh v1.0.2 https://med.aixico.com 18082
 ```
 
 脚本会校验同版本部署包、按 digest 拉取公开 GHCR 镜像、创建数据目录、启动应用并引导创建管理员。账号至少 3 位，密码至少 12 位。没有默认密码。已有安装或数据会阻止全新安装，避免覆盖。
@@ -32,12 +32,14 @@ curl -fL --retry 3 https://github.com/CodeAIX/LearningAgent/releases/download/v1
 在已有宿主机 cloudflared 对应的 Tunnel 中添加公开主机名：
 
 ```text
-i.aixico.com → HTTP → 127.0.0.1:18082
+med.aixico.com → HTTP → 127.0.0.1:18082
 ```
 
 应用安装完成与公网域名可访问是两个检查步骤。首次需要配置这条路由；域名尚未配置时，脚本会显示待配置说明。若 cloudflared 运行在其他容器中，应通过共享 Docker 网络访问应用，不能直接使用该容器的 127.0.0.1。
 
-首页：`https://i.aixico.com`；后台：`https://i.aixico.com/admin`。
+首页：`https://med.aixico.com`；后台：`https://med.aixico.com/admin`。原域名 `i.aixico.com` 已在 Cloudflare 配置永久跳转，保留路径与查询参数。
+
+已发布的 v1.0.2 安装包保持原样；安装时请像上方命令一样显式传入新域名。
 
 ## 维护
 
